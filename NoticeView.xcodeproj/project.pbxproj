@@ -29,6 +29,7 @@
 		748A6A5D157D0D06003C7655 /* WBStickyNoticeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 748A6A5C157D0D06003C7655 /* WBStickyNoticeView.m */; };
 		7492FA45157C8CD700FB834C /* WBBlueGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7492FA42157C8CD700FB834C /* WBBlueGradientView.m */; };
 		7492FA46157C8CD700FB834C /* WBRedGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7492FA44157C8CD700FB834C /* WBRedGradientView.m */; };
+		7492FA46157C8CD700FB834E /* WBStickySuccessNoticeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7492FA46157C8CD700FB834D /* WBStickySuccessNoticeView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +70,8 @@
 		7492FA42157C8CD700FB834C /* WBBlueGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBBlueGradientView.m; sourceTree = "<group>"; };
 		7492FA43157C8CD700FB834C /* WBRedGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBRedGradientView.h; sourceTree = "<group>"; };
 		7492FA44157C8CD700FB834C /* WBRedGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBRedGradientView.m; sourceTree = "<group>"; };
+		7492FA46157C8CD700FB834D /* WBStickySuccessNoticeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBStickySuccessNoticeView.m; sourceTree = "<group>"; };
+		7492FA46157C8CD700FB834F /* WBStickySuccessNoticeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBStickySuccessNoticeView.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +102,8 @@
 		592BDDE315645BEE00B78820 /* WBNoticeView */ = {
 			isa = PBXGroup;
 			children = (
+				7492FA46157C8CD700FB834F /* WBStickySuccessNoticeView.h */,
+				7492FA46157C8CD700FB834D /* WBStickySuccessNoticeView.m */,
 				746CBCFE1570A1D100B844B1 /* WBErrorNoticeView.h */,
 				746CBCFF1570A1D100B844B1 /* WBErrorNoticeView.m */,
 				746CBD061570A8FA00B844B1 /* WBSuccessNoticeView.h */,
@@ -265,6 +270,7 @@
 				7492FA46157C8CD700FB834C /* WBRedGradientView.m in Sources */,
 				748A6A59157D0B74003C7655 /* WBGrayGradientView.m in Sources */,
 				748A6A5D157D0D06003C7655 /* WBStickyNoticeView.m in Sources */,
+				7492FA46157C8CD700FB834E /* WBStickySuccessNoticeView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

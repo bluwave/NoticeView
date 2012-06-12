@@ -22,6 +22,16 @@
                     alpha:(float)alpha
                   yOrigin:(CGFloat)origin;
 
+- (void)_showNoticeOfType:(WBNoticeViewType)noticeType
+                     view:(UIView *)view
+                    title:(NSString *)title
+                  message:(NSString *)message
+                 duration:(float)duration
+                    delay:(float)delay
+                    alpha:(float)alpha
+                  yOrigin:(CGFloat)origin
+                   sticky:(BOOL)sticky;
+
 - (void)_showErrorNoticeInView:(UIView *)view
                          title:(NSString *)title
                        message:(NSString *)message

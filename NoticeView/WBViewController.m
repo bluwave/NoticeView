@@ -30,6 +30,7 @@
 #import "WBErrorNoticeView.h"
 #import "WBSuccessNoticeView.h"
 #import "WBStickyNoticeView.h"
+#import "WBStickySuccessNoticeView.h"
 
 @interface WBViewController ()
 
@@ -141,6 +142,12 @@
     [notice show];
     
     [self.navigationController pushViewController: [[WBViewController alloc] init] animated:YES];
+}
+
+- (IBAction)showStickySuccess:(id)sender
+{
+    WBStickySuccessNoticeView *notice = [WBStickySuccessNoticeView successNoticeInView:self.view title:@"Sticky Success stays here. No Delay!"];
+    [notice show];
 }
 
 @end

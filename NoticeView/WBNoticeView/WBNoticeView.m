@@ -41,7 +41,8 @@
                       duration:(float)duration
                          delay:(float)delay
                          alpha:(float)alpha
-                         yOrigin:(CGFloat)origin;
+                         yOrigin:(CGFloat)origin
+                        sticky:(BOOL) sticky;
 
 - (void)_showStickyNoticeInView:(UIView *)view
                          title:(NSString *)title
@@ -51,12 +52,15 @@
                          alpha:(float)alpha
                        yOrigin:(CGFloat)origin;
 
-- (void)displayNoticeOfType:(WBNoticeViewType)noticeType
-                   duration:(CGFloat)duration
-                      delay:(CGFloat)delay
-                     origin:(CGFloat)origin
-              hiddenYOrigin:(CGFloat)hiddenYOrigin
-                      alpha:(CGFloat)alpha;
+//- (void)displayNoticeOfType:(WBNoticeViewType)noticeType
+//                   duration:(CGFloat)duration
+//                      delay:(CGFloat)delay
+//                     origin:(CGFloat)origin
+//              hiddenYOrigin:(CGFloat)hiddenYOrigin
+//                      alpha:(CGFloat)alpha;
+
+- (void)displayNoticeOfType:(WBNoticeViewType)noticeType duration:(CGFloat)duration delay:(CGFloat)delay origin:(CGFloat)origin hiddenYOrigin:(CGFloat)hiddenYOrigin alpha:(CGFloat)alpha sticky:(BOOL) sticky;
+
 
 - (void)dismissNoticeOfType:(WBNoticeViewType)noticeType
                    duration:(CGFloat)duration
@@ -215,6 +219,19 @@
                     alpha:(float)alpha
                   yOrigin:(CGFloat)origin
 {
+    return [self _showNoticeOfType: noticeType view:view title:title message:message duration:duration delay:delay alpha:alpha yOrigin:origin sticky:NO];
+}
+
+- (void)_showNoticeOfType:(WBNoticeViewType)noticeType
+                     view:(UIView *)view
+                    title:(NSString *)title
+                  message:(NSString *)message
+                 duration:(float)duration
+                    delay:(float)delay
+                    alpha:(float)alpha
+                  yOrigin:(CGFloat)origin
+                sticky:(BOOL)sticky
+{
     if (nil == self.noticeView) {
         
         // Set default values if needed
@@ -231,7 +248,7 @@
                 break;
                 
             case WBNoticeViewTypeSuccess:
-                [self _showSuccessNoticeInView:view title:title message:message duration:duration delay:delay alpha:alpha yOrigin:origin];
+                [self _showSuccessNoticeInView:view title:title message:message duration:duration delay:delay alpha:alpha yOrigin:origin sticky:sticky];
                 break;
                 
             case WBNoticeViewTypeSticky:
@@ -334,7 +351,7 @@
     self._alpha = alpha;
     self._hiddenYOrigin = hiddenYOrigin;
     
-    [self displayNoticeOfType:WBNoticeViewTypeError duration:duration delay:delay origin:origin hiddenYOrigin:hiddenYOrigin alpha:alpha];
+    [self displayNoticeOfType:WBNoticeViewTypeError duration:duration delay:delay origin:origin hiddenYOrigin:hiddenYOrigin alpha:alpha sticky:NO];
 }
 
 - (void)_showSuccessNoticeInView:(UIView *)view
@@ -344,6 +361,7 @@
                            delay:(float)delay
                            alpha:(float)alpha
                          yOrigin:(CGFloat)origin
+                          sticky:(BOOL) sticky
 {
     // Obtain the screen width
     CGFloat viewWidth = view.frame.size.width;
@@ -388,7 +406,7 @@
     
     // Add the title label
     [self.noticeView addSubview:self.titleLabel];
-    
+
     // Add the drop shadow to the notice view
     CALayer *noticeLayer = self.noticeView.layer;
     noticeLayer.shadowColor = [[UIColor blackColor]CGColor];
@@ -396,13 +414,21 @@
     noticeLayer.shadowOpacity = 0.50;
     noticeLayer.masksToBounds = NO;
     noticeLayer.shouldRasterize = YES;
+
+    self._currentNotice = self;
+    CGRect frame = self.noticeView.frame;
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    frame.origin.x = frame.origin.y = 0.0;
+    button.frame = frame;
+    [button addTarget:self._currentNotice action:@selector(dismissStickyNotice:) forControlEvents:UIControlEventTouchUpInside];
+    [self.noticeView addSubview:button];
     
     self._duration = duration;
     self._delay = delay;
     self._alpha = alpha;
     self._hiddenYOrigin = hiddenYOrigin;
     
-    [self displayNoticeOfType:WBNoticeViewTypeSuccess duration:duration delay:delay origin:origin hiddenYOrigin:hiddenYOrigin alpha:alpha];
+    [self displayNoticeOfType:WBNoticeViewTypeSuccess duration:duration delay:delay origin:origin hiddenYOrigin:hiddenYOrigin alpha:alpha sticky:sticky];
 }
 
 - (void)_showStickyNoticeInView:(UIView *)view
@@ -493,12 +519,12 @@
     
     NSLog(@"%@", self.noticeView.subviews);
     
-    [self displayNoticeOfType:WBNoticeViewTypeSticky duration:duration delay:delay origin:origin hiddenYOrigin:hiddenYOrigin alpha:alpha];
+    [self displayNoticeOfType:WBNoticeViewTypeSticky duration:duration delay:delay origin:origin hiddenYOrigin:hiddenYOrigin alpha:alpha sticky:YES];
 }
 
 #pragma mark -
 
-- (void)displayNoticeOfType:(WBNoticeViewType)noticeType duration:(CGFloat)duration delay:(CGFloat)delay origin:(CGFloat)origin hiddenYOrigin:(CGFloat)hiddenYOrigin alpha:(CGFloat)alpha
+- (void)displayNoticeOfType:(WBNoticeViewType)noticeType duration:(CGFloat)duration delay:(CGFloat)delay origin:(CGFloat)origin hiddenYOrigin:(CGFloat)hiddenYOrigin alpha:(CGFloat)alpha sticky:(BOOL) sticky
 {
     // Go ahead, display it
     [UIView animateWithDuration:duration animations:^ {
@@ -509,7 +535,7 @@
     } completion:^ (BOOL finished) {
         if (finished) {
             // if it's not sticky, hide it automatically
-            if (WBNoticeViewTypeSticky != noticeType) {
+            if (!sticky) {
                 // Display for a while, then hide it again
                 [self dismissNoticeOfType:noticeType duration:duration delay:delay hiddenYOrigin:hiddenYOrigin];
             }

@@ -6,7 +6,10 @@
 
 
 #import <Foundation/Foundation.h>
+#import "WBBaseNoticeView.h"
 
 
-@interface WBStickySuccessNoticeView : NSObject
+@interface WBStickySuccessNoticeView : WBBaseNoticeView
++ (WBStickySuccessNoticeView *)successNoticeInView:(UIView *)view title:(NSString *)title;
+- (void)show;
 @end
